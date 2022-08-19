@@ -15,20 +15,20 @@ public class PlanController {
     }
 
     //Gets all the plans for the users
-    @GetMapping("plans")
+    @GetMapping("/plans")
     public Iterable<Plans> getPlans() {
         return planRepo.findAll();
     }
 
     //Adding plans to the repo
-    @PostMapping("addPlans")
+    @PostMapping("/addPlans")
     public Iterable<Plans> addPlans(@RequestBody Plans plans) {
         planRepo.save(plans);
         return planRepo.findAll();
     }
 
     //Deleting a specific plan that you don't want/need
-    @DeleteMapping("removePlans/{id}")
+    @DeleteMapping("/removePlans/{id}")
     public Iterable<Plans> deletePlans(@PathVariable long id) {
         Plans plans = planRepo.findById(id).get();
         planRepo.delete(planRepo.findById(id).get());
