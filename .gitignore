@@ -27,4 +27,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # hiding away api key
-./frontend/src/myAPI.js
+/frontend/src/myAPI.js
