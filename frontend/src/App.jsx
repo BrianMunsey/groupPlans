@@ -1,12 +1,13 @@
 import React from "react";
 import "./App.css";
-import { Testfile } from "./components/Testfile";
-import { WeatherDays } from "./components/WeatherDays";
+import { Testfile } from "./components/Testfile.js";
+import { WeatherDays } from "./components/WeatherDays.js";
+import myAPI from "./myAPI.js";
 
 const mainPage = document.querySelector("#root");
 
 let APIdata;
-const apiKey = "04065c9f7e4a3b3f0eeb19a45b15f54e";
+const apiKey = myAPI;
 const myLongitude = "-83.093948";
 const myLatitude = "39.881851";
 
