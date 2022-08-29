@@ -31,7 +31,17 @@ export function APIdata(props) {
     //     </h1>
     //     }
     //                  call the fetch before the element gets rendered
-    
+    if (isLoaded){
+      return (
+        <>
+          <h1>
+            {data.daily.map((day) => (
+              <p>day.lat</p>
+            ))}
+          </h1>
+        </>
+      )
+    }
   return (
     <div>
       <button onClick={APIfetch} >Button</button>
