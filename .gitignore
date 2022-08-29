@@ -19,7 +19,8 @@
 .env.production.local
 
 # trying to ignore mac added files
-.gradle
+/gradle
+/bin
 .idea
 
 npm-debug.log*
