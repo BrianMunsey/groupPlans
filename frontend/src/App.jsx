@@ -1,8 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
-import { Testfile } from "./components/Testfile.js";
-import { WeatherDays } from "./components/WeatherDays.js";
-import { APIdata } from "./components/APIdata.js";
 import APIkey from "./myAPI.js";
 
 const mainPage = document.querySelector("#root");
@@ -10,54 +7,61 @@ const mainPage = document.querySelector("#root");
 const myLongitude = "-83.093948";
 const myLatitude = "39.881851";
 
-function App (props) {
-      return (
-      <div>
-        <APIdata apiKey={APIkey} myLongitude={myLongitude}  myLatitude={myLatitude}/>
-      </div>
-    );
+const week = ["Today", "Tomorrow", "Day after tomorrow", "Three days from now", "Four days from now", "Five days from now", "Six days from now", "Seven days from now", "Eight days from now"]
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        days: [],
+        DataisLoaded: false
+    };
+
+    this.count = 0;
+
+    function setCount() {
+      count += 1;
+    }
+}
+
+  componentDidMount() {
+    fetch(
+      "https://api.openweathermap.org/data/3.0/onecall?lat=" +
+        myLatitude +
+        "&lon=" +
+        myLongitude +
+        "&units=imperial&exclude=alerts,hourly,minutely,current&appid=" + APIkey
+    )
+    .then((res) => res.json())
+    .then((json) => {
+      this.setState({
+        days: json,
+        DataisLoaded: true
+      });
+    })
   }
-  console.log(APIkey);
+  //try to get the map function to count through the days WIP
+  render() {
+    const { DataisLoaded, days} = this.state;
+    if(!DataisLoaded) return <div>
+      <h1> The weather is loading</h1> </div> ;
+    return (
+      <div>
+        {days.daily.map((day) => (
+          <div onLoad={this.setCount}>
+            <h1>{week[this.count]}</h1>
+            <p>Temperature high of: {day.temp.max}F</p>
+            <p>Temperature low of: {day.temp.min}F</p>
+            <p>Weather description: {day.weather[0].description}</p>
+          </div>
+        ))}
+      </div>
+    )
+  }
 
-// function fetchAPI() {
-//   fetch("https://api.openweathermap.org/data/3.0/onecall?lat=" + myLatitude +"&lon=" + myLongitude + "&units=imperial&exclude=alerts,hourly,minutely,current&appid=" + apiKey)
-//   .then(res => res.json())
-//   .then(data =>{
-//     APIdata = data;
-//     transferData(APIdata);
-//   })
-//   .catch()
-//   console.log("Well Shit")
-// }
+  }
 
-// let maxTemp;
-// let minTemp;
-// let weather;
-// let i = 0;
-// const days = 8;
 
-// function transferData(APIdata) {
-//   maxTemp = APIdata.daily[0].temp.max;
-//   minTemp = APIdata.daily[0].temp.min;
-//   weather = APIdata.daily[0].weather[0].description;
-
-//   while(i < days){
-//     mainPage.innerHTML += APIdata.daily[i].temp.max;
-//     mainPage.innerHTML += "---";
-//     i++;
-//   }
-
-//   makeView();
-// }
-
-// fetchAPI();
-
-// function makeView() {
-
-// mainPage.innerHTML = maxTemp;
-// mainPage.innerHTML += minTemp;
-// mainPage.innerHTML += weather;
-//   console.log(APIdata);
-// }
 
 export default App;
