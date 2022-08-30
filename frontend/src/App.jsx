@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import APIkey from "./myAPI.js";
+import "./App.css"
 
 const mainPage = document.querySelector("#root");
 
@@ -18,11 +19,12 @@ class App extends React.Component {
         DataisLoaded: false
     };
 
-    this.count = 0;
+    this.count = -17;
 
-    function setCount() {
-      count += 1;
-    }
+}
+
+  counter() {
+  return this.count += 1;
 }
 
   componentDidMount() {
@@ -35,9 +37,10 @@ class App extends React.Component {
     )
     .then((res) => res.json())
     .then((json) => {
+      console.log(json)
       this.setState({
         days: json,
-        DataisLoaded: true
+        DataisLoaded: true,
       });
     })
   }
@@ -47,13 +50,16 @@ class App extends React.Component {
     if(!DataisLoaded) return <div>
       <h1> The weather is loading</h1> </div> ;
     return (
-      <div>
+      <div className="cardsList">
         {days.daily.map((day) => (
-          <div onLoad={this.setCount}>
-            <h1>{week[this.count]}</h1>
-            <p>Temperature high of: {day.temp.max}F</p>
-            <p>Temperature low of: {day.temp.min}F</p>
+          <div>
+            <h1>{week[this.counter()]} </h1>
+            <p>Temperature high of: {day.temp.max}°F</p>
+            <p>Temperature low of: {day.temp.min}°F</p>
             <p>Weather description: {day.weather[0].description}</p>
+            <button>Schedule</button>
+            <input type="hidden" className="id_field" value={this.count}></input>
+            {/* this needs to be changed, this wont work */}
           </div>
         ))}
       </div>
