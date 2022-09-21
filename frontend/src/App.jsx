@@ -19,6 +19,11 @@ class App extends React.Component {
         DataisLoaded: false
     };
 
+    this.newState = {
+      ...this.state,
+      week: week
+    }
+
     this.count = -17;
 
 }
@@ -37,7 +42,6 @@ class App extends React.Component {
     )
     .then((res) => res.json())
     .then((json) => {
-      console.log(json)
       this.setState({
         days: json,
         DataisLoaded: true,
@@ -46,14 +50,14 @@ class App extends React.Component {
   }
   //try to get the map function to count through the days WIP
   render() {
-    const { DataisLoaded, days} = this.state;
+    const { DataisLoaded, days} = this.newState;
     if(!DataisLoaded) return <div>
       <h1> The weather is loading</h1> </div> ;
     return (
       <div className="cardsList">
         {days.daily.map((day) => (
           <div>
-            <h1>{week[this.counter()]} </h1>
+            <h1>{days.week} </h1>
             <p>Temperature high of: {day.temp.max}°F</p>
             <p>Temperature low of: {day.temp.min}°F</p>
             <p>Weather description: {day.weather[0].description}</p>
